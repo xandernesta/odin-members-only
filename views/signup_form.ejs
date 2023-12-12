@@ -1,0 +1,38 @@
+
+
+<div class="max-w-sm mx-auto h-screen">
+    <h1 class="text-2xl font-bold dark:text-teal-500 text-center mb-3 border-b pt-8 pb-4 border-b-teal-500/70 "><%-title%></h1>
+    <form class="flex flex-col gap-6 max-w-sm max-h-sm" method="POST" action="/signup"  enctype="multipart/form-data">
+        <div class="form-group flex flex-col ">
+            <div>
+                <label class="form-label inline-block flex-col gap-4 group pb-1 pt-2" for="username">Username <span class="text-red-600 text-sm font-normal">*</span> </label>
+                <input class="form-control peer shadow-sm border-gray-200 rounded-md w-full pr-7 transition duration-200 dark:bg-slate-800" type="text" id="username" name="username" placeholder="Username" required autocomplete="nickname" value=<%= undefined===username ? '': username %>></input>
+            </div>
+            <div>
+                <label class="form-label inline-block flex-col gap-4 group pb-1 pt-2" for="email">Email <span class="text-red-600 text-sm font-normal">*</span></label>
+                <input class="form-control peer shadow-sm border-gray-200 rounded-md w-full pr-7 transition duration-200 dark:bg-slate-800" type="email" id="email" name="email" placeholder="xyz@gmail.com, xyz@yahoo.com, etc." required autocomplete="john@gmail.com" value=<%= undefined===email ? '': email %>></input>
+            </div>
+            <div class="align-content-center">
+                <% if (multerError) { %>
+                    <p class="text-red-600"><%-multerError%></p>
+                <% } %> 
+                <label class="form-label inline-block group mb-2 mt-4" for='image'>
+                    Profile picture  <span class="inline-block text-gray-400 dark:text-gray-500 text-sm font-normal">(optional)</span>
+                </label>
+                <input class="form-control-file text-sm align-center ml-10" type="file" id="image" name="image" value=<%= undefined===image ? '': image %>></input>
+                <p class="dark:text-gray-500 ml-12">(Must be less than 6MB)</p>
+                
+            </div>
+            <div>
+                <label class="form-label inline-block flex-col gap-4 group pb-1 pt-2" for="password">Password <span class="text-red-600 text-sm font-normal">*</span> </label>
+                <input class="form-control peer shadow-sm border-gray-200 rounded-md w-full pr-7 transition duration-200 dark:bg-slate-800" type="password" name="password" minlength="6" placeholder="Must be at leat 6 characters" required autocomplete="new-password" value=<%= undefined===password ? '': password %>></input>
+            </div>
+            <div>
+                <label class="form-label inline-block flex-col gap-4 group pb-1 pt-2" for="password">Confirm Password <span class="text-red-600 text-sm font-normal">*</span></label>
+                <input class="form-control peer shadow-sm border-gray-200 rounded-md w-full pr-7 transition duration-200 dark:bg-slate-800" type="password" name="confirmPassword" minlength="6" placeholder="Confirm your password" required autocomplete="new-password" value=<%= undefined===confirmPassword ? '': confirmPassword %>></input>
+            </div>
+            <button class="p-2 mt-5 min-w-full bg-teal-500 font-bold rounded-md text-black dark:text-slate-100" type="submit">Sign Up</button>
+        </div>
+        <p class="text-center">Already have an account? <a href="/login" class="dark:text-teal-500 font-bold">Login</a></p>
+    </form>
+</div>
