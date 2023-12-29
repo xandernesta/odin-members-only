@@ -75,15 +75,75 @@ exports.signup_form_post = [
             }
         })
     },
-    asyncHandler(async (req, res, next) => {
-        res.render("signup_form", {
-            title: "Successful Prof Pic Sign Up",
-            username: username,
-            email: email,
-            image: image,
-            password: password,
-            confirmPassword: confirmPassword,
-            multerError: null,
-            errors: null,
+    body("username")
+        .trim()
+        .isString()
+        .isLength({ min:1})
+        .withMessage("Username is required")
+        .isLength({ max: 28 })
+        .withMessage("Username cannot be more than 28 characters")
+        .custom((username) => {
+            // alphanumeric and "_" non-consecutive
+            const pattern = /^(?!.*__)[A-Za-z0-9_]+$/;
+            return pattern.test(username);
         })
-})]
+        .withMessage("Username can only contain alphanumeric and non-consecutive underscores")
+        .custom(async (username) => {
+            const usernameTaken = await User.isUsernameTaken(username);
+            if (usernameTaken) return Promise.reject();
+      
+            return true;
+          })
+        .withMessage("Username is already taken"),
+    body("password")
+        .isLength({ min: 6})
+        .withMessage("Password must be at least 6 characters"),
+    body("confirmPassword")
+        .custom((confirmPass, { req }) =>{
+            req.body.password === confirmPass
+        })
+        .withMessage("Passwords do not match!"),
+    asyncHandler(async (req, res, next) => {
+        // check for errors
+        const errors = validationResult(req)
+
+        const { username, email, image, password, confirmPassword } = req.body;
+
+        if (!errors.isEmpty()){
+            res.render("signup_form", {
+                title: "Successful Prof Pic Sign Up",
+                username: username,
+                email: email,
+                image: image,
+                password: password,
+                confirmPassword: confirmPassword,
+                multerError: null,
+                errors: errors.mapped(),
+            })
+        } else {
+            //no validation errors
+            //hash the password with bcryptjs
+            const hashedPassword = await new Promise((resolve, reject) => {
+                bcrypt.hash(password, 10, (err, hash) => {
+                    if (err) reject(err);
+                    else resolve(hash)
+                })
+            }) 
+
+            const user = new User({
+                username,
+                email,
+                image: req.file ? req.file.filename : null,
+                password: hashedPassword,
+            });
+            await user.save();
+
+            next();
+        }
+    }),
+    // Authenticate user
+    passport.authenticate("local", {
+        successRedirect: "/",
+        failureRedirect: "/",
+    })
+]
