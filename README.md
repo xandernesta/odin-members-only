@@ -1,4 +1,4 @@
-# Members Only
+# Odin Members Only
 
 ![Screenshot](./MYscreenshot.png)
 
@@ -31,10 +31,10 @@ I created this project mainly to practice full-stack development with a focus on
 
 ```bash
 # Clone this repository
-$ git clone git@github.com:xandernesta/members-only.git
+$ git clone git@github.com:xandernesta/odin-members-only.git
 
 # Go into the repository
-$ cd members-only
+$ cd odin-members-only
 ```
 
 ### Getting the project ready
@@ -61,7 +61,7 @@ $ npm install
 
 ### Starting the application
 
-From `members-only` directory, run the following commands:
+From `odin-members-only` directory, run the following commands:
 
 ```bash
 
