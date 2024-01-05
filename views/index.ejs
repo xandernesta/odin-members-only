@@ -4,46 +4,57 @@
     <title><%#= title %></title>
     <link rel='stylesheet' href='/stylesheets/style.css' />
   </head>-->
- 
-    <div class="min-h-screen pt-4 pb-6 px-4">
+  
+    <div class="pt-4 pb-6 px-4">
       <div class="text-center top-0 row-span-3">
         <div class="">
           <p>Welcome to <%= title %></p>
         </div>
         <p class="text-lg font-bold italic">Messages</p>
+        <% if(typeof user === 'undefined' || typeof user.username === 'undefined') { %>
+          <p class="text-md font-bold text-green-500 dark:text-teal-300">Sign up or Log in to see who wrote each message and when.</p>
+          <%-console.dir("currentUser: "+ user)%>
+        <% } %>
       </div>
-      <div id="msg-container" class="grid grid-cols-1 gap-2 place-content-center place-items-center ">
+      <div id="msg-container" class="grid grid-cols-1 gap-2 place-content-center place-items-center overflow-y-auto pb-10 mb-8">
+       <% if (typeof user != 'undefined') { %>
+        <% if(user.isMember == 'true') {%>
+          <% for( let i = 0; i < messages.length; i++ ) { %>
+            <div class="text-base m-4 p-2 row-span-3 border-2 rounded border-black dark:bg-slate-700 dark:border-slate-50/20 w-1/2 ">
+              <div id="card-body flex">
+                <h4 id="card-title blur-md"> <%=messages[i].title%></h4>
+                <p id="card-text"><%=messages[i].message%></p>
+                <p id="posted-by">
+                  posted by:
+                  <span class="text-green-500 dark:text-teal-500"> <%=messages[i].author[0].username%></span>
+                  , on: <%= messages[i].timestamp_formatted %>
+                </p>
+              </div>
+            </div>
+          <% } %>
+          <% } %>
+       <% } else { %>
         <!-- for each message in messages  -->
-        <div class="text-base m-4 p-2 row-span-3 border-2 rounded border-black dark:bg-slate-700 dark:border-slate-50/20 max-w-1/2">
-          <p>
-            msg1 ms1 ms1 ms1 ms1 msg1 ms1 ms1 ms1 ms1 msg1 ms1 ms1 ms1 ms1
-            msg1 ms1 ms1 ms1 ms1 msg1 ms1 ms1 ms1 ms1 msg1 ms1 ms1 ms1 ms1
-            msg1 ms1 ms1 ms1 ms1msg1 ms1 ms1 ms1 ms1 msg1 ms1 ms1 ms1 ms1
-          </p>
-        </div>
-        <div class="text-base m-4 p-2 row-span-3 border-2 rounded border-black dark:bg-slate-700 dark:border-slate-50/20 max-w-1/2">
-          <p>
-            msg2 ms2 ms2 ms2 ms2 msg2 ms2 ms2 ms2 ms2 msg2 ms2 ms2 ms2 ms2
-            msg2 ms2 ms2 ms2 ms2 msg2 ms2 ms2 ms2 ms2 msg2 ms2 ms2 ms2 ms2
-            msg2 ms2 ms2 ms2 ms2 msg2 ms2 ms2 ms2 ms2 msg2 ms2 ms2 ms2 ms2
-          </p>
-        </div>
-        <div class="text-base m-4 p-2 border-2 rounded border-black dark:bg-slate-700 dark:border-slate-50/20 max-w-1/2">
-          <p>
-            msg3 ms3 ms3 ms3 ms3 msg3 ms3 ms3 ms3 ms3 msg3 ms3 ms3 ms3 ms3
-            msg3 ms3 ms3 ms3 ms3 msg3 ms3 ms3 ms3 ms3 msg3 ms3 ms3 ms3 ms3
-            msg3 ms3 ms3 ms3 ms3 msg3 ms3 ms3 ms3 ms3 msg3 ms3 ms3 ms3 ms3
-          </p>
-        </div>
-        <div class="text-base m-4 p-2 border-2 rounded border-black dark:bg-slate-700 dark:border-slate-50/20 max-w-1/2">
-          <p>
-            msg4 msg4 msg4 msg4 msg4 msg4 msg4 msg4 msg4 msg4 msg4 msg4 msg4
-            msg4 msg4 msg4 msg4 msg4 msg4 msg4 msg4 msg4 msg4 msg4 msg4 msg4
-            msg4 msg4 msg4 msg4 msg4 msg4 msg4 msg4 msg4 msg4 msg4 msg4 msg4
-            msg4 msg4 msg4 msg4 msg4 msg4 msg4 msg4 msg4 msg4 msg4 msg4 msg4
-          </p>
-        </div>
+        <% for( let i = 0; i < messages.length; i++ ) { %>
+          <div class="text-base m-4 p-2 row-span-3 border-2 rounded border-black dark:bg-slate-700 dark:border-slate-50/20 w-1/2 ">
+            <div id="card-body flex">
+              <h4 id="card-title blur-md"> Anon User (sign up to see who)</h4>
+              <p id="card-text"><%=messages[i].message%></p>
+              <p id="posted-by">
+                  Posted by: <span class="dark:text-slate-900">█████</span> , Date: <span class="dark:text-slate-900">███ █</span>,<span class="dark:text-slate-900">████</span>
+              </p>
+            </div>
+          </div>
+        <% } %>
+        <% } %>
       </div>
+        
     </div>
-
+    
+<!-- <script nonce="rAnd0m">
+  function closeModal(){
+    let modal = document.getElementById('info-popup-overlay')
+    modal.classList.add('hidden');
+  }
+</script> -->
 <!-- </html> -->

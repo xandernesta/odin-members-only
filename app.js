@@ -11,7 +11,7 @@ const session = require("express-session");
 const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
 const bcrypt = require("bcryptjs")
-const mongoose = require("mongoose");
+const mongoose = require("mongoose")
 const Schema = mongoose.Schema;
 const expressLayouts = require("express-ejs-layouts");
 const helmet = require("helmet")
@@ -25,17 +25,28 @@ const messageRouter = require('./routes/message')
 
 var app = express();
 
+// Setup mongoDB connection with mongoose
+//mongoose connection
+/* mongoose.set("strictQuery, false"); */
+const mongoDB = process.env.MONGODB_URI
+//error catching for connection
+main().catch((err)=> console.log(err))
+async function main(){
+  await mongoose.connect(mongoDB)
+}
+
 // enabling the Helmet middleware
 app.use(
   helmet.contentSecurityPolicy({
-  useDefaults: true,
-  directives: {
-    "font-src": ["'self'", "external-website.com"],
-    // allowing styles from any website
-    "style-src": ["'self'", "'unsafe-inline'",'https://cdnjs.cloudflare.com/ajax/'],
-    "font-src": ["'self'", "'unsafe-inline'",'https://cdnjs.cloudflare.com/ajax/'],
-    "script-src": ["'self'", "'unsafe-inline'", "*.w3.org","code.jquery.com", "cdn.jsdelivr.net"],
-  },
+    useDefaults: true,
+    directives: {
+      "script-src": ["'self'", "'unsafe-inline'", "*.w3.org","code.jquery.com", "cdn.jsdelivr.net" ],
+      "font-src": ["'self'", "external-website.com"],
+      // allowing styles from any website
+      "style-src": ["'self'", "'unsafe-inline'",'https://cdnjs.cloudflare.com/ajax/'],
+      "font-src": ["'self'",'https://cdnjs.cloudflare.com/ajax/'],
+    },
+    reportOnly: true,
 }))
 // overriding "font-src" and "style-src" while
 // maintaining the other default values
@@ -87,7 +98,7 @@ passport.deserializeUser(async (id, done) => {
 app.use((req, res, next) => {
   res.locals.currentUser = req.user;
   // from another repo to track local membership status
-  res.locals.isMember = req.user && req.user.status !== "none";
+  res.locals.isMember = req.user && req.user.status !== "non-member";
   res.locals.currentPath = req.path;
   next();
 });
