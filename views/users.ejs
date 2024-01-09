@@ -1,0 +1,21 @@
+<div class="max-w-sm mx-auto h-screen">
+    <h1><%=title%></h1>
+    <ul>
+        <% for( let i = 0; i < userList.length; i++ ) { %>
+            <li class="text-aqua-500"><%=userList[i].username%></li>
+            <% } %>
+    </ul>
+    <% if (userMatch) { %>
+     <p class="text-aqua-400"><%=userMatch%></p>
+    <% } %>
+    <form class="flex flex-col gap-6 max-w-sm max-h-sm" method="POST" action="/user" >
+        <div class="form-group flex flex-col ">
+            <div>
+                <p class="text-aqua-400"><%=username%></p>
+                <label class="form-label inline-block flex-col gap-4 group pb-1 pt-2" for="username" >Username <span class="text-red-600 text-sm font-normal">*</span> </label>
+                <input class="form-control peer shadow-sm border-gray-200 rounded-md w-full pr-7 transition duration-200 dark:bg-slate-800" type="text" id="username" name="username" placeholder="Username" required autocomplete="nickname" value=<%-username%> ></input>
+            </div>
+            <button class="p-2 mt-5 min-w-full bg-purple-700  font-bold rounded-md text-black dark:text-gray-200 hover:bg-purple-700 focus:ring-2 focus:ring-gray-700 " type="submit">Find User</button>
+        </div>
+
+</div>

@@ -1,0 +1,32 @@
+
+<div class="max-w-sm mx-auto h-screen">
+    <h1 class="text-2xl font-bold dark:text-teal-500 text-center mb-3 border-b pt-8 pb-4 border-b-teal-500/70 "><%-title%></h1>
+    <% if (errMsg) { %>
+        <ul>
+            <li class="text-red-600">errMsg=<%=errMsg%></li>
+        </ul>
+    <% } %>
+    <% if (messages) { %>
+        <ul>
+                <li class="text-red-600">Session Error: <%=messages[0]%></li>
+        </ul>
+    <% } %>
+    
+    <div class="text-purple-500">"Current path is: "<%=currentPath %></div>
+    <form class="flex flex-col gap-6 max-w-sm max-h-sm" method="POST" action="/login" >
+        <div class="form-group flex flex-col ">
+            <div>
+                <label class="form-label inline-block flex-col gap-4 group pb-1 pt-2" for="username">Username <span class="text-red-600 text-sm font-normal">*</span> </label>
+                <input class="form-control peer shadow-sm border-gray-200 rounded-md w-full pr-7 transition duration-200 dark:bg-slate-800" type="text" id="username" name="username" placeholder="username" required></input>
+            </div>
+            <div>
+                <label class="form-label inline-block flex-col gap-4 group pb-1 pt-2" for="password">Password <span class="text-red-600 text-sm font-normal">*</span> </label>
+                <input class="form-control peer shadow-sm border-gray-200 rounded-md w-full pr-7 transition duration-200 dark:bg-slate-800" type="password" name="password"placeholder="Must be at leat 6 characters" required minlength="6" ></input>
+            </div>
+            <button class="p-2 mt-5 min-w-full bg-teal-500 font-bold rounded-md text-black dark:text-gray-200 hover:bg-teal-700 focus:ring-2 focus:ring-gray-700 " type="submit">Login</button>
+            
+        </div>
+        <a class="p-2 mt-5 min-w-full bg-purple-700  font-bold rounded-md text-black dark:text-gray-200 hover:bg-purple-700 focus:ring-2 focus:ring-gray-700 " href="/user">All Users</a>
+        <p class="text-center">Not a member yet? <a href="/signup" class="dark:text-teal-500 hover:text-teal-500  hover:dark:text-teal-700 font-bold">Sign up</a></p>
+    </form>
+</div>

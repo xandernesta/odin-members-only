@@ -1,7 +1,8 @@
 // Load .env file if server is not in production mode
 if (process.env.NODE_ENV !== 'production') {
-  require('dotenv').config();
 }
+require('dotenv').config();
+
 var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
@@ -22,18 +23,19 @@ const signUpRouter = require('./routes/signup')
 const loginRouter = require('./routes/login')
 const logoutRouter = require('./routes/logout')
 const messageRouter = require('./routes/message')
-
-var app = express();
+const User = require('./models/user')
 
 // Setup mongoDB connection with mongoose
 //mongoose connection
 /* mongoose.set("strictQuery, false"); */
 const mongoDB = process.env.MONGODB_URI
 //error catching for connection
-main().catch((err)=> console.log(err))
-async function main(){
-  await mongoose.connect(mongoDB)
-}
+mongoose.connect(mongoDB);
+const db = mongoose.connection;
+db.on("error", console.error.bind(console, "mongo connection error"));
+
+
+var app = express();
 
 // enabling the Helmet middleware
 app.use(
@@ -52,15 +54,12 @@ app.use(
 // maintaining the other default values
 
 // view engine setup
+app.use(expressLayouts);
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
 
-app.use(session({ secret: "cats", resave: false, saveUninitialized: true }));
-// passport initialization
-app.use(passport.initialize());
-app.use(passport.session());
-app.use(express.urlencoded({ extended: false }));
+
 // Setup passport LocalStrategy - must be above passport.initialize()
 // Function to lookup user in our database and allow authentication if found (called by passport)
 passport.use(
@@ -68,7 +67,7 @@ passport.use(
       try {
           const user = await User.findOne({ username: username})
           if(!user) {
-              return done(null, false, { message: "Incorrect username" })
+              return done(null, false, { message: `Invalid username "${username}"` })
           }
           const match = await bcrypt.compare(password, user.password);
           if (!match) {
@@ -95,20 +94,26 @@ passport.deserializeUser(async (id, done) => {
     done(err);
   };
 });
+// passport initialization
+app.use(session({ secret: "keyboardcats", resave: false, saveUninitialized: true }));
+app.use(passport.initialize());
+app.use(passport.session());
+
+
+app.use(logger('dev'));
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser());
+app.use(express.static(path.join(__dirname, 'public')));
+
+//middleware to get current user, path, and membership status if !"non-member"
 app.use((req, res, next) => {
-  res.locals.currentUser = req.user;
+  res.locals.user = req.user;
   // from another repo to track local membership status
   res.locals.isMember = req.user && req.user.status !== "non-member";
   res.locals.currentPath = req.path;
   next();
 });
-
-app.use(expressLayouts);
-app.use(logger('dev'));
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
 
 
 app.use('/', indexRouter);

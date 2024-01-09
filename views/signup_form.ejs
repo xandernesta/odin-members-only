@@ -4,6 +4,13 @@
     <h1 class="text-2xl font-bold dark:text-teal-500 text-center mb-3 border-b pt-8 pb-4 border-b-teal-500/70 "><%-title%></h1>
     <form class="flex flex-col gap-6 max-w-sm max-h-sm" method="POST" action="/signup"  enctype="multipart/form-data">
         <div class="form-group flex flex-col ">
+            <% if (errors) { %>
+             <ul>
+                <% errors.forEach(err => { %>
+                 <li class="text-red-600"><%=err.msg%></li>
+                <% }) %>
+             </ul>
+            <% } %>
             <div>
                 <label class="form-label inline-block flex-col gap-4 group pb-1 pt-2" for="username">Username <span class="text-red-600 text-sm font-normal">*</span> </label>
                 <input class="form-control peer shadow-sm border-gray-200 rounded-md w-full pr-7 transition duration-200 dark:bg-slate-800" type="text" id="username" name="username" placeholder="Username" required autocomplete="nickname" value=<%= undefined===username ? '': username %>></input>
@@ -28,11 +35,11 @@
                 <input class="form-control peer shadow-sm border-gray-200 rounded-md w-full pr-7 transition duration-200 dark:bg-slate-800" type="password" name="password" minlength="6" placeholder="Must be at leat 6 characters" required autocomplete="new-password" value=<%= undefined===password ? '': password %>></input>
             </div>
             <div>
-                <label class="form-label inline-block flex-col gap-4 group pb-1 pt-2" for="password">Confirm Password <span class="text-red-600 text-sm font-normal">*</span></label>
+                <label class="form-label inline-block flex-col gap-4 group pb-1 pt-2" for="confirmPassword">Confirm Password <span class="text-red-600 text-sm font-normal">*</span></label>
                 <input class="form-control peer shadow-sm border-gray-200 rounded-md w-full pr-7 transition duration-200 dark:bg-slate-800" type="password" name="confirmPassword" minlength="6" placeholder="Confirm your password" required autocomplete="new-password" value=<%= undefined===confirmPassword ? '': confirmPassword %>></input>
             </div>
-            <button class="p-2 mt-5 min-w-full bg-teal-500 font-bold rounded-md text-black dark:text-slate-100" type="submit">Sign Up</button>
+            <button class="p-2 mt-5 min-w-full bg-teal-500 font-bold rounded-md text-black dark:text-gray-200 hover:bg-teal-700 focus:ring-2 focus:ring-gray-700 " type="submit">Sign Up</button>
         </div>
-        <p class="text-center">Already have an account? <a href="/login" class="dark:text-teal-500 font-bold">Login</a></p>
+        <p class="text-center">Already have an account? <a href="/login" class="dark:text-teal-500 hover:text-teal-500  hover:dark:text-teal-700 font-bold">Login</a></p>
     </form>
 </div>

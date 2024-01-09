@@ -1,4 +1,7 @@
 const User = require("../models/user")
+var express = require('express');
+var router = express.Router();
+const indexPage = require("./indexController")
 const path = require("path")
 const asyncHandler = require("express-async-handler");
 const passport = require("passport");
@@ -29,6 +32,30 @@ const upload = multer({
         callback(null, true)
     },
   }).single('image');
+
+  /* Login Form */
+
+// Login Form GET
+exports.login_form_get = asyncHandler(async (req, res, next) => {
+    if (res.locals.user) return res.redirect("/");
+    res.render("login_form", {
+        title: "Log In",
+        messages: req.session.messages,
+        errMsg: res.locals.message,
+    })
+})
+
+// Login Form POST
+exports.login_form_post = [
+
+    // Authenticate user
+    passport.authenticate("local", {
+        successRedirect: "/",
+        failureRedirect: "/login",
+        failureMessage: true,
+      }),  
+    ]
+      
 
 /* Signup Form */
 
@@ -100,7 +127,7 @@ exports.signup_form_post = [
         .withMessage("Password must be at least 6 characters"),
     body("confirmPassword")
         .custom((confirmPass, { req }) =>{
-            req.body.password === confirmPass
+           return req.body.password === confirmPass
         })
         .withMessage("Passwords do not match!"),
     asyncHandler(async (req, res, next) => {
@@ -111,14 +138,14 @@ exports.signup_form_post = [
 
         if (!errors.isEmpty()){
             res.render("signup_form", {
-                title: "Successful Prof Pic Sign Up",
+                title: "Sign Up",
                 username: username,
                 email: email,
                 image: image,
                 password: password,
                 confirmPassword: confirmPassword,
                 multerError: null,
-                errors: errors.mapped(),
+                errors: errors.array(),
             })
         } else {
             //no validation errors
@@ -135,6 +162,7 @@ exports.signup_form_post = [
                 email,
                 image: req.file ? req.file.filename : null,
                 password: hashedPassword,
+                status: "member",
             });
             await user.save();
 
@@ -144,6 +172,9 @@ exports.signup_form_post = [
     // Authenticate user
     passport.authenticate("local", {
         successRedirect: "/",
-        failureRedirect: "/",
-    })
+        failureRedirect: "/signup", 
+        failureMessage: true, 
+    }),
+    
 ]
+

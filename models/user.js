@@ -23,11 +23,10 @@ UserSchema.virtual("url").get(function (){
 })
 // Allows for checking if username is taken
 UserSchema.statics.isUsernameTaken = async function isUsernameTaken(username) {
-    return this.exists({ username })
-      .collation({ locale: "en", strength: 2 })
-      .exec();
-};
-  
+  return this.exists({ username })
+    .collation({ locale: "en", strength: 2 })
+    .exec();
+}
 
 // Export the model
 module.exports = mongoose.model("User", UserSchema);
