@@ -1,18 +1,25 @@
   
     <div class="pt-4 pb-6 px-4">
-      <div class="text-center top-0 row-span-3">
-        <div class="">
-          <p>Welcome to <%= title %></p>
-        </div>
-        <p class="text-lg font-bold italic">Messages</p>
+      <div class="flex justify-center place-content-center place-items-center top-0 row-span-3 ">
+        <div class="w-1/2">
+        
         <% if(typeof user === 'undefined' || typeof user.username === 'undefined') { %>
-          <p class="text-md font-bold text-green-500 dark:text-teal-300">Sign up or Log in to see who wrote each message and when.</p>
-          <%-console.dir("currentUser: "+ user)%>
-        <% } else{ %>
-          <p class="text-md font-bold text-green-500 dark:text-teal-300">Welcome back <%=user.username%></p>
+          <h2 class="text-2xl mb-1">Welcome to <span class="font-bold"> <%= title %> </span> </h2>
+          <p class="text-md font-bold text-green-500 dark:text-teal-300 mb-3.5">Sign up or Log in to see who wrote each message and when.</p>
+        <% } else { %>
+          <div class="">
+            <h2 class="text-2xl left-0 text-green-500 dark:text-gray-200 ">Welcome back, <span class="font-bold text-black dark:text-teal-700"><%=user.username%></span></h2>
+            <%-console.dir("currentUser: "+ user)%>
+            <a href="/message" class="font-bold inline-flex items-center gap-2 bg-teal-500 py-1.5 px-3 mt-2 rounded-md  text-black dark:text-gray-200 hover:bg-teal-700 focus:ring-2 focus:ring-gray-700"><i class="fa fa-plus" aria-hidden="true"></i>
+              New Message
+            </a>
+          </div>
         <% } %>
+        </div>
       </div>
-      <div id="msg-container" class="grid grid-cols-1 gap-2 place-content-center place-items-center overflow-y-auto pb-10 mb-8">
+      
+      <div id="msg-container" class="grid grid-cols-1 gap-2 place-content-center place-items-center overflow-y-auto pb-10 mb-8 mt-4">
+      <p class="text-center text-3xl font-bold border-b w-1/2 p-2 border-b-slate-700 dark:text-gray-200 -mb-3  ">Member Messages</p>
        <% if (typeof user != 'undefined') { %>
           <% for( let i = 0; i < messages.length; i++ ) { %>
             <div class="text-base m-4 p-2 row-span-3 border-2 rounded border-black dark:bg-slate-700 dark:border-slate-50/20 w-1/2 ">
