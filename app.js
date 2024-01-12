@@ -1,7 +1,8 @@
 // Load .env file if server is not in production mode
 if (process.env.NODE_ENV !== 'production') {
+  require('dotenv').config();
 }
-require('dotenv').config();
+
 
 var createError = require('http-errors');
 var express = require('express');
