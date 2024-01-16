@@ -10,7 +10,7 @@
             <div class="form-group">
                 <input type="text" id="messageid" class="form-control hidden" type='hidden' name='messageid' required='true' value=<%=message._id%>>
                 <div id="card-body flex">
-                    <h3 id="card-title" class="text-lg lg:text-2xl font-bold dark:text-gray-950"> <%=message.title%></h3>
+                    <h3 id="card-title" class="text-lg lg:text-2xl font-bold dark:text-teal-500"> <%=message.title%></h3>
                     <p id="card-text"class="text-base lg:text-lg"><%=message.message%></p>
                     <p id="posted-by" class="text-sm mt-6 align-botton">
                         posted by:
@@ -21,7 +21,7 @@
             </div>
             <% if (user && user.isAdmin === true) { %>
                 <div class="align-bottom place-self-end min-w-fit">
-                    <button type="submit" class="btn p-1.5 px-2 bg-red-700 dark:bg-purple-700 font-bold rounded-md text-black dark:text-gray-200 hover:bg-purple-700 focus:ring-2 focus:ring-gray-700 ">
+                    <button type="submit" class="btn p-.5 pb-1 px-2 text-white bg-red-700 dark:bg-indigo-600 font-bold rounded-md dark:text-gray-200 hover:bg-indigo-800 dark:hover:bg-indigo-800 focus:ring-2 focus:ring-gray-700 ">
                         Delete
                     </button>
                 </div>

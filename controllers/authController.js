@@ -160,9 +160,11 @@ exports.signup_form_post = [
             const user = new User({
                 username,
                 email,
-                image: req.file ? req.file.filename : null,
                 password: hashedPassword,
                 status: "member",
+                isAdmin: false,
+                image: req.file ? req.file.filename : null,
+                
             });
             await user.save();
 

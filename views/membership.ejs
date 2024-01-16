@@ -1,0 +1,41 @@
+<div class="max-w-sm mx-auto h-screen">
+    <h1 class="text-2xl font-bold pt-8 mb-4 pb-2 border-b border-b-teal-500/70">
+        <%= title %>
+    </h1>
+    <p class="text-sm text-gray-400 pb-4 mb-5 ">
+        <span class="font-bold text-black dark:text-teal-600"><%=user.username%></span>,
+        <%= description %>
+    </p>
+    <form action="" method="POST" class="flex flex-col gap-4 max-w-sm">
+        <label class="form-label inline-block flex-col gap-2 group  pt-2" for="password">Enter passcode <span class="text-red-600 text-sm font-normal">*</span> </label>
+        <input class="form-control peer shadow-sm border-gray-200 rounded-md w-full pr-7 transition duration-200 dark:bg-slate-800" type="password" name="password" placeholder="*****" required ></input>
+        <button class="p-2 mt-5 min-w-full bg-teal-500 font-bold rounded-md text-black dark:text-gray-200 hover:bg-teal-700 focus:ring-2 focus:ring-gray-700 " type="submit">
+            <%=title%>
+        </button>
+    </form>
+    <div class="flex justify-center items-center m-4">
+        <input id="link-checkbox" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+        <label for="link-checkbox" class="ms-2 p-1 mr-4 text-sm font-medium text-gray-900 dark:text-gray-300">
+            Need a hint?
+        </label>
+    </div>
+        <% if (user.status === "secret-member") { %>
+            <p class="flex justify-center"><span id="scrtText" class="text-base text-gray-900 dark:text-gray-500 font-bold  hidden">sorry it's not that easy this time...</span></p>
+        <% } else { %>
+            <p></p><span id="scrtText" class="text-base text-gray-900 dark:text-gray-500 font-bold  hidden">jointheOdinclub</span></p>
+        <% } %>
+          
+    
+</div>
+
+<script>
+    const checkbox = document.getElementById("link-checkbox");
+    const scrtText = document.getElementById("scrtText");
+    checkbox.addEventListener('change', function() {
+        if (this.checked) {
+            scrtText.classList.remove("hidden")
+        } else {
+            scrtText.classList.add("hidden")
+        }
+    })
+</script>

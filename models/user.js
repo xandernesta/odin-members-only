@@ -28,5 +28,6 @@ UserSchema.statics.isUsernameTaken = async function isUsernameTaken(username) {
     .exec();
 }
 
+
 // Export the model
 module.exports = mongoose.model("User", UserSchema);

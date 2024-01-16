@@ -8,9 +8,31 @@
                 <a class="text-3xl text-gray-900 dark:text-gray-300 font-bold absolute inset-y-2 left-0" href="/">
                     <span class="text-green-500 dark:text-teal-500">Members</span>Only
                 </a>
-                <!-- <div class="text-purple-500">"CP is: "<%=currentPath %></div> -->
+                <!-- <div class="text-indigo-500">"CP is: "<%=currentPath %></div> -->
                 <div id="nav-container" class="absolute inset-y-3 right-0 md:w-1/4 lg:w-1/6 flex justify-around justify-items-center items-center">
                     <% if(user != undefined) {%>
+                        <div class="flex flex-col">
+                            <button id="open-user-dropdown" class="flex m-4 items-center">
+                                <img src=<%= user.image === null ?'/images/user.png' : `/images/${user.image}`%> alt="" class="w-7 h-7 rounded-full">
+                                <span class="text-base text-gray-300">
+                                    <i class="fa fa-chevron-down ml-2 thin-icon" aria-hidden="true"></i>
+                                </span>
+                            </button>
+                            <ul id="user-dropdown" class="text-black dark:text-gray-500 py-4 text-sm hidden fixed top-16 right-auto shadow-xl rounded w-52 flex-col bg-neutral-50 dark:bg-slate-700">
+                                <p class="px-4 py-2">
+                                    Membership Status: <span class="font-bold capitalize text-indigo-500"><%=user.status%></span> 
+                                </p>
+                                <% if (user.status === 'member') { %>
+                                    <a href="/membership/become-secret-member" class="px-4 py-2 dark:text-teal-500 hover:text-teal-500  hover:dark:text-teal-700 font-bold" >Join the Secret Club</a>
+                                <% } %>
+                                <% if (user.status === 'secret-member' && user.isAdmin === false) { %>
+                                    <a href="/membership/become-admin" class="px-4 py-2 dark:text-teal-500 hover:text-teal-500  hover:dark:text-teal-700 font-bold">Are you an Admin?</a>
+                                <% } %>
+                                <% if (user.isAdmin === true) { %>
+                                    <p class="px-4 py-2 font-bold "> <span class="text-black">Admin</span>, huh..? How does it feel to wield so much power? </p>
+                                <% } %>
+                            </ul>
+                        </div>
                         <a class="text-base text-gray-900 dark:text-gray-300 hover:text-teal-500 dark:hover:text-teal-500 pb-1 m-4" href="/logout">Logout</a>
                     <% } else { %>
                         <a class="text-base text-gray-900 dark:text-gray-300 hover:text-teal-500 dark:hover:text-teal-500 pb-1 m-4<%= currentPath === "/login" ? 'border-b border-black dark:border-gray-500 dark:text-teal-500' : '' %>" href="/login">Login</a>
@@ -63,4 +85,14 @@
       lightBtn.addEventListener("click", handleDarkmodeOff);
       darkBtn.addEventListener("click", handleDarkmodeOn);
     });
+
+    const openUserDropdown = document.getElementById("open-user-dropdown");
+    const userDropdown = document.getElementById("user-dropdown");
+
+    // will only not be null when user is logged in
+    if (openUserDropdown) {
+    openUserDropdown.addEventListener("click", () => {
+        userDropdown.classList.toggle("hidden");
+    });
+    }
 </script>

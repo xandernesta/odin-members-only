@@ -19,7 +19,7 @@ const expressLayouts = require("express-ejs-layouts");
 const helmet = require("helmet")
 
 var indexRouter = require('./routes/index');
-var userRouter = require('./routes/user');
+var membershipRouter = require('./routes/membership');
 const signUpRouter = require('./routes/signup')
 const loginRouter = require('./routes/login')
 const logoutRouter = require('./routes/logout')
@@ -118,7 +118,7 @@ app.use((req, res, next) => {
 
 
 app.use('/', indexRouter);
-app.use('/user', userRouter);
+app.use('/membership', membershipRouter);
 app.use('/signup', signUpRouter);
 app.use('/login', loginRouter);
 app.use('/logout', logoutRouter);
