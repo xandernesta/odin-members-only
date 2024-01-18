@@ -3,7 +3,7 @@ const asyncHandler = require("express-async-handler");
 const details = {
     secretMember: {
         title: "Become a Secret Member",
-        description: "by becoming a secret member, you will be able to post messages and see the author and date of each message. (See the passcode in console)",
+        description: "by becoming a secret member, you will be able to post messages and see the author and date of each message.",
     },
     
     admin: {

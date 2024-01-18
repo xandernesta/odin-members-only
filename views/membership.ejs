@@ -22,12 +22,11 @@
         <% if (user.status === "secret-member") { %>
             <p class="flex justify-center"><span id="scrtText" class="text-base text-gray-900 dark:text-gray-500 font-bold  hidden">sorry it's not that easy this time...</span></p>
         <% } else { %>
-            <p></p><span id="scrtText" class="text-base text-gray-900 dark:text-gray-500 font-bold  hidden">jointheOdinclub</span></p>
+            <p class="flex justify-center"><span id="scrtText" class="text-base text-gray-900 dark:text-gray-500 font-bold  hidden">jointheOdinclub</span></p>
         <% } %>
           
     
 </div>
-
 <script>
     const checkbox = document.getElementById("link-checkbox");
     const scrtText = document.getElementById("scrtText");

@@ -1,6 +1,9 @@
 {
   "name": "odin-members-only",
   "version": "0.0.0",
+  "engines": {
+    "node": ">=20.9.0"
+  },
   "private": true,
   "scripts": {
     "start": "node ./bin/www",
@@ -12,12 +15,14 @@
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
+    "compression": "^1.7.4",
     "cookie-parser": "~1.4.4",
     "debug": "~2.6.9",
     "ejs": "^3.1.9",
     "express": "^4.18.2",
     "express-async-handler": "^1.2.0",
     "express-ejs-layouts": "^2.5.1",
+    "express-rate-limit": "^7.1.5",
     "express-session": "^1.17.3",
     "express-validator": "^7.0.1",
     "helmet": "^7.1.0",

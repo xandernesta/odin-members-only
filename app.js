@@ -16,7 +16,8 @@ const bcrypt = require("bcryptjs")
 const mongoose = require("mongoose")
 const Schema = mongoose.Schema;
 const expressLayouts = require("express-ejs-layouts");
-const helmet = require("helmet")
+const helmet = require("helmet");
+const compression = require("compression");
 
 var indexRouter = require('./routes/index');
 var membershipRouter = require('./routes/membership');
@@ -38,6 +39,16 @@ db.on("error", console.error.bind(console, "mongo connection error"));
 
 var app = express();
 
+// Set up rate limiter: maximum of twenty requests per minute
+const RateLimit = require("express-rate-limit");
+const limiter = RateLimit({
+  windowMs: 1 * 60 * 1000, // 1 minute
+  max: 50,
+});
+// Apply rate limiter to all requests
+app.use(limiter);
+
+
 // enabling the Helmet middleware
 app.use(
   helmet.contentSecurityPolicy({
@@ -49,7 +60,7 @@ app.use(
       "style-src": ["'self'", "'unsafe-inline'",'https://cdnjs.cloudflare.com/ajax/'],
       "font-src": ["'self'",'https://cdnjs.cloudflare.com/ajax/'],
     },
-    reportOnly: true,
+    
 }))
 // overriding "font-src" and "style-src" while
 // maintaining the other default values
