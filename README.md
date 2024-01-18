@@ -1,6 +1,6 @@
 # Odin Members Only
 
-![Screenshot](./members_screen.png)
+![Screenshot](./members_screen.jpg)
 
 **:key: Secret Code (case-sensitive):** `jointheOdinclub`
 
